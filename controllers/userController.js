@@ -1,7 +1,7 @@
 const { response, request } = require("express"); // para tener el tipado (autocompletado de funciones) 
 
 const usuariosGet = (req = request, res = response) => {
-    const { nombre, edad = 18} = req.query; // Obtenemos los parametros de la url con el method GET. Podemos definir valores por defecto
+    const { nombre = 'no name', edad = 18} = req.query; // Obtenemos los parametros de la url con el method GET. Podemos definir valores por defecto
   res.json({
     // Devolvemos una respuesta con información tipo Json (Formato mas común y estandar).
     msg: "get API - Controller",
