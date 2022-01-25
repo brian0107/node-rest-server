@@ -1,0 +1,19 @@
+html{
+    background-color: bisque;
+}
+h1, h2 {
+    font-size: 5rem;
+    font-weight: 2rem;
+}
+
+.imagen{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.insulto{
+    text-align: center;
+
+
+}

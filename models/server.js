@@ -1,16 +1,27 @@
 const express = require("express"); //Express es para crear nuestro servidor
 const cors = require("cors"); //Cors permite la transferencia de datos entre un servidor y otro
+
+const { dbConnection } = require('../database/config');
 class Server {
+
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
     this.usuariosPath = "/api/usuarios";
+
+    // Conectar a base de datos
+    this.conectarDB();
+
     // Moddlewares : funciones que siempre se ejecutan cuando levantamos el servidor
     this.middlewares();
 
     // Rutas de mi aplicación
     this.routes();
   }
+
+    async conectarDB() {
+      await dbConnection();
+    }
 
   middlewares() {
     // CORS
