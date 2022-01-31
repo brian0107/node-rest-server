@@ -1,19 +1,12 @@
-html{
-    background-color: bisque;
+html {
+  background-color: bisque;
 }
-h1, h2 {
-    font-size: 5rem;
-    font-weight: 2rem;
-}
-
-.imagen{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+h1,
+h2 {
+  font-size: 5rem;
+  font-weight: 2rem;
 }
 
-.insulto{
-    text-align: center;
-
-
+h1 {
+  text-align: center;
 }

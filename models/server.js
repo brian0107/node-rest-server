@@ -23,7 +23,7 @@ class Server {
       await dbConnection();
     }
 
-  middlewares() {
+  middlewares() { //Middleware de nivel de aplicación
     // CORS
     this.app.use(cors()); //Permite peticiones desde cualquier dominio
 
@@ -34,7 +34,7 @@ class Server {
     this.app.use(express.static("public")); //'use' es la palabra clave para decir que esto es un middleware. express.static() es una funcion que sirve archivos estaticos en la ruta ('/').
   }
 
-  routes() {
+  routes() { //La ruta de usuarios tiene asociado un router que escucha el metodo de solicitud, valida y llama un controlador
     this.app.use(this.usuariosPath, require("../router/userRouter"));
   }
 

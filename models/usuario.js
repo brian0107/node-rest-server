@@ -3,7 +3,7 @@ const {Schema, model} = require('mongoose');
 
 // Creacion del modelo usuario.
 
-// Los modelos se definen a través de la interfaz Schema. Donde definimos la estructura de sus documentos y los tipos de datos que está almacenando.
+//Los modelos se definen a través de la interfaz Schema. Donde definimos la estructura de sus documentos y los tipos de datos que está almacenando.
 const UsuarioShema = Schema({
     nombre: {
         type: String,
@@ -23,8 +23,7 @@ const UsuarioShema = Schema({
     },
     rol: {
         type: String,
-        required: true,
-        emun: ['ADMIN_ROLE', 'USER_ROLE']
+        required: [true,'El rol es obligatorio']
     },
     estado: {
         type: Boolean,
@@ -35,5 +34,12 @@ const UsuarioShema = Schema({
         default: false
     }
 });
-
-module.exports = model( 'Usuario', UsuarioShema ); //model recibe el nombre singular de la coleccion para la que es el modelo y el esquema creado
+/*Sobreescribimos el metodo toJSON para que cuando queramos imprimir nuestro modelo
+ en formato JSON, lo imprima pero excluyendo __v, password. */
+UsuarioShema.methods.toJSON = function() {
+    const { __v, password, ...usuario } = this.toObject(); // Tomamos la instancia actual del modelo en memoria y la convertimos en un objeto de JS. Para desestructurar el objeto y extraer solo lo que nos interesa con el operador rest (...).
+    return usuario;
+}
+//Exportar el modelo
+//model recibe el nombre singular de la coleccion a la que pertenece y el esquema creado
+module.exports = model('Usuario', UsuarioShema ); //Crea una coleccion con el nombre usuarios
