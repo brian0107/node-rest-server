@@ -10,7 +10,7 @@ const usuariosGet = async (req = request, res = response) => {
 
   // Con promise.all de ejecutan todas las promesas a la vez y con await esperamos a que todas terminen antes de pasar a imprimirlas
   const [total, usuarios] = await Promise.all([
-    Usuario.countDocuments(query),
+    Usuario.countDocuments(query), //contar el número de documentos que coinciden con el filtro
     Usuario.find(query).skip(Number(desde)).limit(Number(limite)),
   ]);
 
@@ -63,15 +63,17 @@ const usuariosPut = async (req = request, res = response) => {
 const usuariosDelete = async (req = request, res = response) => {
 
   const {id} = req.params;
-
+  
   // Fisicamente lo borramos
   // const usuario = await Usuario.findByIdAndDelete( id );
 
-  const usuario = await Usuario.findByIdAndUpdate(id, { estado: false} );
-  // Solo cambiamos su estado a false, de este modo no se mostrara el registro para quien utilize nuestro servicio rest pero mantenemos el registro en la BD para no perder su integridad referencial
+  const usuario = await Usuario.findByIdAndUpdate(id, { estado: false} ); // Solo cambiamos su estado a false, de este modo no se mostrara el registro para quien utilize nuestro servicio rest pero mantenemos el registro en la BD para no perder su integridad referencial
+ 
+  //const usuarioAutenticado = req.usuario;
   res.json({
     msg: "Usuario eliminado correctamente",
     usuario
+    //usuarioAutenticado
   });
 };
 

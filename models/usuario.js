@@ -37,7 +37,8 @@ const UsuarioShema = Schema({
 /*Sobreescribimos el metodo toJSON para que cuando queramos imprimir nuestro modelo
  en formato JSON, lo imprima pero excluyendo __v, password. */
 UsuarioShema.methods.toJSON = function() {
-    const { __v, password, ...usuario } = this.toObject(); // Tomamos la instancia actual del modelo en memoria y la convertimos en un objeto de JS. Para desestructurar el objeto y extraer solo lo que nos interesa con el operador rest (...).
+    const { __v, _id, password, ...usuario } = this.toObject(); // Tomamos la instancia actual del modelo en memoria y la convertimos en un objeto de JS. Para desestructurar el objeto y extraer solo lo que nos interesa con el operador rest (...).
+    usuario.uid = _id;
     return usuario;
 }
 //Exportar el modelo

@@ -8,6 +8,7 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.usuariosPath = "/api/usuarios";
+    this.authPath = "/api/auth";
 
     // Conectar a base de datos
     this.conectarDB();
@@ -28,13 +29,14 @@ class Server {
     this.app.use(cors()); //Permite peticiones desde cualquier dominio
 
     // Lectura y parseo del body
-    this.app.use( express.json() ); //Obtiene la informacion de los request method Post,Put,Delete en formato Json.
+    this.app.use( express.json() ); //Obtiene la informacion entrante de los request method Post,Put en formato Json.
    
     //Directorio público
     this.app.use(express.static("public")); //'use' es la palabra clave para decir que esto es un middleware. express.static() es una funcion que sirve archivos estaticos en la ruta ('/').
   }
 
   routes() { //La ruta de usuarios tiene asociado un router que escucha el metodo de solicitud, valida y llama un controlador
+    this.app.use(this.authPath, require("../router/authRouter"));
     this.app.use(this.usuariosPath, require("../router/userRouter"));
   }
 

@@ -1,7 +1,14 @@
 const { Router } = require("express"); //Extraemos la funcion Router para utlizar Middleware de nivel de direccionador
 const { check } = require("express-validator");
-const {validarCampos} = require('../middlewares/validar-campos');
+
+const{
+  validarCampos,
+  validarJWT,
+  esAdminRole,
+  tieneRole
+} = require('../middlewares');
 const { esRoleValido, emailExiste, existeUsuarioPorId } = require('../helpers/db-validators');
+
 const {
   usuariosGet,
   usuariosPost,
@@ -42,6 +49,9 @@ router.put("/:id", [
 router.patch("/", usuariosPatch);
 
 router.delete("/:id",[
+  validarJWT,
+  //esAdminRole, //Solo un administrador puede eliminar
+  tieneRole('ADMIN_ROLE','VENTAS_ROLE', 'OTRO_ROLE'), //Cualquiera de estos roles puede eliminar
   check('id', 'No es un ID válido').isMongoId(),
   check('id').custom( existeUsuarioPorId ),
   validarCampos
