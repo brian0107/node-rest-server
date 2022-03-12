@@ -35,7 +35,7 @@ class Server {
     this.app.use(express.static("public")); //'use' es la palabra clave para decir que esto es un middleware. express.static() es una funcion que sirve archivos estaticos en la ruta ('/').
   }
 
-  routes() { //La ruta de usuarios tiene asociado un router que escucha el metodo de solicitud, valida y llama un controlador
+  routes() { //Las rutas de usuarios y de autenticación tienen asociado un router que escucha el metodo de solicitud, valida y llama un controlador
     this.app.use(this.authPath, require("../router/authRouter"));
     this.app.use(this.usuariosPath, require("../router/userRouter"));
   }
