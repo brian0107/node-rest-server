@@ -45,7 +45,7 @@
           headers: { //Tipo de contenido enviado
             'Content-Type':'application/json'
           },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body) //Convierte el objeto js a Json
 
         })
         .then(res => res.json()) //Respuesta en json
