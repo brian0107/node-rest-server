@@ -18,12 +18,13 @@ const UsuarioShema = Schema({
         type: String,
         required: [true,'El password es obligatorio']
     },
-    imagen: {
+    img: {
         type: String
     },
     rol: {
         type: String,
-        required: [true,'El rol es obligatorio']
+        required: [true,'El rol es obligatorio'],
+        default: "USER_ROLE"
     },
     estado: {
         type: Boolean,

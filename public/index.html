@@ -4,10 +4,62 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rest-Server</title>
+    <title>Google Sign-in</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Rest-Server-BrianBecerra</h1>
+    <h1>Googole Sign-in</h1>
+    <hr>
+
+    <div id="g_id_onload"
+         data-client_id="634678067248-mkr6mcrsdmntebmgsfh2m9vvcheo6r67.apps.googleusercontent.com"
+         data-auto_prompt="false"
+         data-callback="handleCredentialResponse"> <!--Callback a llamar cuando se realize una autenticación exitosa.-->
+      </div>
+      <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+      </div>
+      <button id="google_signout">
+        Sign-out
+      </button>
+      
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script>
+      function handleCredentialResponse(response) {
+        //  Google token: ID_TOKEN
+        //  console.log('id_token', response.credential);
+        const body = { id_token: response.credential }; //Credenciales que vienen de google.
+
+        fetch('http://localhost:8080/api/auth/google', {
+          method: 'POST',
+          headers: { //Tipo de contenido enviado
+            'Content-Type':'application/json'
+          },
+          body: JSON.stringify(body)
+
+        })
+        .then(res => res.json()) //Respuesta en json
+        .then(res => { //Imprimir la respuesta
+          console.log(res); //Respuesta con los datos del usuario creado o encontrado por google y el JWT generado. 
+          localStorage.setItem('email', res.usuario.correo); //Agregar al localstorage el correo electronico del usuario que inicio sesion con google.
+        })
+        .catch(console.warn);
+      }
+      button = document.getElementById('google_signout');
+      button.onclick = () =>{
+        console.log( google.accounts.id);
+        google.accounts.id.disableAutoSelect(); //Cuando el usuario cierra sesión en su sitio web, debe llamar al método google.accounts.id.disableAutoSelect para registrar el estado en las cookies. Esto evita un bucle muerto de UX.
+        google.accounts.id.revoke( localStorage.getItem('email'), done => { //Este metodo revoca la concesión de autenticación utilizada para compartir el token de identificación para el usuario especificado
+          localStorage.clear(); // Limpiar el correo electronico que teniamos ahi
+          location.reload(); //Recarga la pagina para vaciar cualquier estado que tengamos en nuestra app.
+        })
+      }
+    </script>
   </body>
 </html>
